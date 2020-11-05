@@ -1,0 +1,221 @@
+﻿@model List<CricketTeam_Assignment.Models.TeamMembers>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Coach Index</h2>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("td:nth-child(13) input[type=checkbox]").prop('disabled', true);
+        $("td:nth-child(14) input[type=checkbox]").prop('disabled', true);
+        var $IsCaptaincheckboxes = $('td:nth-child(14) input[type="checkbox"]');
+        var $IsSelectedcheckboxes = $('td:nth-child(12) input[type="checkbox"]');
+        $IsCaptaincheckboxes.change(function () {
+            var Count = $IsCaptaincheckboxes.filter(':checked').length;
+            // $('#count-checked-checkboxes').text(countCheckedCheckboxes);
+            if (Count >=1) {
+                $('td:nth-child(14) input[type=checkbox]').not(':checked').attr("disabled", true);
+               // $('td:nth-child(12) input[type=checkbox]').attr("Checked", true);
+                //$(this).closest("tr").find("input[type=checkbox]").prop('checked', true);
+                $(this).closest("tr").find("td:nth-child(13) input[type=checkbox]").prop('checked', true);
+            }
+            else {
+                $('td:nth-child(14) input[type=checkbox]').not(':checked').attr("disabled", false);
+                // $('td:nth-child(12) input[type=checkbox]').prop("Checked", false);
+                //$(this).closest("tr").find("input[type=checkbox]").prop('checked', false);
+                //$(this).closest("tr").find("td:nth-child(12) input[type=checkbox]").prop('checked', false);
+            }
+           
+        });
+        $IsSelectedcheckboxes.change(function () {
+            //var Count = $checkboxes.filter(':checked').length;
+            // $('#count-checked-checkboxes').text(countCheckedCheckboxes);
+            if ($(this).is(":checked")) {
+                $(this).closest("tr").find("td:nth-child(13) input[type=checkbox]").prop('checked', false);
+                $(this).closest("tr").find("td:nth-child(14) input[type=checkbox]").prop('checked', false);
+                $(this).closest("tr").find("td:nth-child(13) input[type=checkbox]").prop('disabled', false);
+                $(this).closest("tr").find("td:nth-child(14) input[type=checkbox]").prop('disabled', false);
+            }
+            else {
+                $(this).closest("tr").find("td:nth-child(13) input[type=checkbox]").prop('checked', false);
+                $(this).closest("tr").find("td:nth-child(14) input[type=checkbox]").prop('checked', false);
+                $(this).closest("tr").find('td:nth-child(14) input[type=checkbox]').prop('disabled', true);
+                $(this).closest("tr").find('td:nth-child(13) input[type=checkbox]').prop('disabled', true);
+               
+            }
+
+        });
+
+    });
+
+
+    
+</script>
+<p>
+    @*Welcome : @ViewBag.Username [@ViewBag.Role]*@
+    @*@Html.ActionLink("Create New", "Create")*@
+
+</p>
+@using (@Html.BeginForm("EditCoachIndex", "Team", FormMethod.Post))
+{
+<table class="table" id="tbllist">
+    <tr>
+        <th hidden>
+            Id
+        </th>
+        <th>
+            Sr.No.
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Total Matches Played
+        </th>
+        <th>
+            Contact No
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            DOB
+        </th>
+        <th>
+            Height
+        </th>
+        <th>
+            Weight
+        </th>
+        <th>
+            Role
+        </th>
+        <th>
+            Is Selected
+        </th>
+        <th>
+            Is Playing
+        </th>
+        <th>
+            Is Captain
+        </th>
+        <th></th>
+    </tr>
+    @{ int a = 1; }
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            <td hidden>
+                @Html.HiddenFor(modelItem => modelItem[i].Id)
+            </td>
+            <td>
+                @(a++)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].TotalMatchesPlayed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].ContactNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].DOB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem[i].Role)
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => modelItem[i].IsSelected, new { htmlAttributes = new { @class = "form-control" } })
+               
+
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => modelItem[i].IsPlaying, new { htmlAttributes = new { @class = "form-control" } })
+                
+            </td>
+            <td>
+                @Html.CheckBoxFor(modelItem => modelItem[i].IsCaptain, new { htmlAttributes = new { @class = "form-control" } })
+               
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+    <div class="form-group">
+        <div class="col-md-6">
+            <div class="col-md-6">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        //$("#tbllist").find("tr:gt(0)").each(function () {
+        //    $("#tbllist td:eq(10) input[type=checkbox]").click(function () {
+        //        var countchecked = $("#tbllist td:eq(10) input[type=checkbox]:checked").length;
+
+        //        if (countchecked >= 5) {
+        //            $('#tbllist td:eq(10) input[type=checkbox]').not(':checked').attr("disabled", true);
+        //        }
+        //        else {
+        //            $('#tbllist td:eq(10) input[type=checkbox]').not(':checked').attr("disabled", false);
+        //        }
+        //    });
+        //});
+
+        //$('#tbllist').find("tr:gt(0)").each(function () {
+        //    $(this).find('td:eq(9)').each(function () {
+        //$("#tbllist td:eq(9) input[type = checkbox]").click(function () {
+        //    var countchecked = $("#tbllist input[type=checkbox]:checked").length;
+
+        //    if (countchecked >= 5) {
+        //        $('#tbllist  input[type=checkbox]').not(':checked').attr("disabled", true);
+        //    }
+        //    else {
+        //        $('#tbllist input[type=checkbox]').not(':checked').attr("disabled", false);
+        //    }
+        //})
+        //    })
+        //});
+        alert('Hello');
+
+
+
+        var $checkboxes = $('td:nth-child(10) input[type="checkbox"]');
+
+        $checkboxes.change(function () {
+            var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+            // $('#count-checked-checkboxes').text(countCheckedCheckboxes);
+            if (countCheckedCheckboxes > 2) {
+                alert('More than 2 not possible');
+            }
+
+        });
+
+    });
+
+</script>*@
